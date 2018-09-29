@@ -1,0 +1,11 @@
+border-1px($color)
+    position: relative
+    &:after
+        display: block
+        // 伪类相对于父元素做绝对定位
+        position: absolute
+        left: 0
+        bottom: 0
+        width: 100%
+        border-top: 1px solid $color
+        content: ' '

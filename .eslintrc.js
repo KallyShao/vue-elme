@@ -119,6 +119,10 @@ module.exports = {
     // @off 很多 api 或文件名都不是 camelcase
     'camelcase': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    // 禁止混用空格和缩进
+    'no-mixed-spaces-and-tabs': 'off',
+    // 禁止使用 tabs
+    'no-tabs': 'off'
   }
 }
