@@ -11,12 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api': {
-            target: 'http://localhost:8080',   //转发配置
-            pathRewrite: {
-                '^/api': '/'
-            }
-        }
+        // 这里不需要配置，直接使用dev.conf.js里dev-server before()配置就行了
+        // '/api': {
+        //     target: 'http://localhost:8080',   //转发配置
+        //     pathRewrite: {
+        //         '^/api': '/'
+        //     }
+        // }
     },
 
     // Various Dev Server settings

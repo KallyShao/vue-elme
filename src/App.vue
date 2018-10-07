@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-header></v-header>
+        <v-header :seller="seller"></v-header>
         <div class="tab border-1px">
             <div class="tab-item">
                 <router-link to="/goods">
@@ -26,9 +26,24 @@
 <script>
 import vheader from 'components/header/header';
 
+const ERR_OK = 0;
+
 export default {
+    data() {
+        return {
+            seller: {}
+        };
+    },
     components: {
         'v-header': vheader
+    },
+    created() {
+        this.$http.get('/api/seller').then((res) => {
+            res = res.body;
+            if (res.errno === ERR_OK){
+                this.seller = res.data;
+            }
+        });
     }
 };
 </script>
@@ -41,7 +56,7 @@ export default {
     height: 40px
     line-height: 40px
     border-1px(rgba(7, 17, 27, .1))
-    // border-bottom: 1px solid rgba(7, 17, 27, .1)
+    background: #fff
     .tab-item
         flex: 1
         text-align: center
