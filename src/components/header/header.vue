@@ -35,10 +35,19 @@
                 <div class="detail-main">
                     <h1 class="seller-name">{{ seller.name }}</h1>
                     <div class="rating">
+                        <v-star :size="48" :score="seller.score"></v-star>
                     </div>
                     <div class="content onsale-info">
-                        <h2 class="title">优惠信息</h2>
+                        <div class="title">
+                            <div class="line"></div>
+                            <h2 class="text">优惠信息</h2>
+                            <div class="line"></div>
+                        </div>
                         <ul class="onsale-list">
+                            <li v-for="(item, index) in seller.supports" :key="index">
+                                <span :class="classMap[index]"></span>
+                                <span>{{ }}</span>
+                            </li>
                             <li>
                                 <span>减</span>
                                 <span>在线支付满28减5</span>
@@ -46,7 +55,11 @@
                         </ul>
                     </div>
                     <div class="content seller-bulletin">
-                        <h2 class="title">商家公告</h2>
+                        <div class="title">
+                            <div class="line"></div>
+                            <h2 class="text">商家公告</h2>
+                            <div class="line"></div>
+                        </div>
                         <p class="bulletin-text">{{ seller.bulletin }}</p>
                     </div>
                 </div>
@@ -59,11 +72,15 @@
 </template>
 
 <script>
+import star from 'components/star/star';
 export default {
     props: {
         seller: {
             type: Object
         }
+    },
+    components: {
+        'v-star': star
     },
     data() {
         return {
@@ -205,23 +222,32 @@ export default {
             min-height: 100%
             .detail-main
                 margin-top: 64px
-                padding-bottom: 64px  // 这里padding是必须的，是底部sticky部分所占的高度
+                // padding-bottom: 64px  // 这里padding是必须的，是底部sticky部分所占的高度
+                padding: 0 36px 64px
                 .seller-name
                     line-height: 16px
                     text-align: center
                     font-weight: 700
                     font-size: 16px
                 .rating
-                    height: 24px
                     margin: 16px auto 0
+                    text-align: center
                 .content
                     margin-top: 28px
                     .title
-                        line-height: 14px
-                        font-size: 14px
-                        font-weight: 700
-                        &:before
-                            content: ' '
+                        display: flex
+                        margin-bottom: 24px
+                        .line
+                            flex: 1
+                            position: relative
+                            top: -6px
+                            border-bottom: 1px solid rgba(255, 255, 255, .2)
+                        .text
+                            padding: 0 12px
+                            line-height: 14px
+                            font-size: 14px
+                            font-weight: 700
+
         .detail-close
             position: relative
             width: 32px
