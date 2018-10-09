@@ -30,44 +30,42 @@
         <div class="background">
             <img :src="seller.avatar" width="100%" height="300%">
         </div>
-        <div v-show="detailShow" class="detail">
-            <div class="detail-wrapper clearfix">
-                <div class="detail-main">
-                    <h1 class="seller-name">{{ seller.name }}</h1>
-                    <div class="rating">
-                        <v-star :size="48" :score="seller.score"></v-star>
-                    </div>
-                    <div class="content onsale-info">
-                        <div class="title">
-                            <div class="line"></div>
-                            <h2 class="text">优惠信息</h2>
-                            <div class="line"></div>
+        <transition name="fade">
+            <div v-show="detailShow" class="detail">
+                <div class="detail-wrapper clearfix">
+                    <div class="detail-main">
+                        <h1 class="seller-name">{{ seller.name }}</h1>
+                        <div class="rating">
+                            <v-star :size="48" :score="seller.score"></v-star>
                         </div>
-                        <ul class="onsale-list">
-                            <li v-for="(item, index) in seller.supports" :key="index">
-                                <span :class="classMap[index]"></span>
-                                <span>{{ }}</span>
-                            </li>
-                            <li>
-                                <span>减</span>
-                                <span>在线支付满28减5</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content seller-bulletin">
-                        <div class="title">
-                            <div class="line"></div>
-                            <h2 class="text">商家公告</h2>
-                            <div class="line"></div>
+                        <div class="content onsale-info">
+                            <div class="title">
+                                <div class="line"></div>
+                                <h2 class="text">优惠信息</h2>
+                                <div class="line"></div>
+                            </div>
+                            <ul v-if="seller.supports" class="onsale-list">
+                                <li v-for="(item, index) in seller.supports" :key="index" class="onsale-item">
+                                    <span class="icon" :class="classMap[index]"></span>
+                                    <span class="onsale-text">{{ item.description }}</span>
+                                </li>
+                            </ul>
                         </div>
-                        <p class="bulletin-text">{{ seller.bulletin }}</p>
+                        <div class="content seller-bulletin">
+                            <div class="title">
+                                <div class="line"></div>
+                                <h2 class="text">商家公告</h2>
+                                <div class="line"></div>
+                            </div>
+                            <p class="bulletin-text">{{ seller.bulletin }}</p>
+                        </div>
                     </div>
                 </div>
+                <div class="detail-close">
+                    <i class="icon-close" @click="hideDetail"></i>
+                </div>
             </div>
-            <div class="detail-close">
-                <i class="icon-close"></i>
-            </div>
-        </div>
+        </transition>
     </div>
 </template>
 
@@ -84,12 +82,15 @@ export default {
     },
     data() {
         return {
-            detailShow: true
+            detailShow: false
         };
     },
     methods: {
         showDetail() {
             this.detailShow = true;
+        },
+        hideDetail() {
+            this.detailShow = false;
         }
     },
     created() {
@@ -217,7 +218,14 @@ export default {
         left: 0
         z-index: 99
         overflow: auto
+        opacity: 1
         background: rgba(7, 17, 27, .8)
+        backdrop-filter: blur(10px)
+        &.fade-enter-active, &.fade-leave-active
+            transition: all .5s
+        &.fade-enter, &.fade-leave-to
+            opacity: 0
+            background: rgba(7, 17, 27, 0)
         .detail-wrapper
             min-height: 100%
             .detail-main
@@ -247,6 +255,43 @@ export default {
                             line-height: 14px
                             font-size: 14px
                             font-weight: 700
+                .onsale-list
+                    padding: 0 12px;
+                    .onsale-item
+                        margin-bottom: 12px
+                        height: 16px
+                        font-size: 0
+                        &:last-child
+                            margin-bottom: 0
+                        .icon
+                            display: inline-block
+                            vertical-align: middle
+                            width: 16px
+                            height: 16px
+                            margin-right: 6px
+                            background-size:  100% 100%
+                            background-repeat: no-repeat
+                            &.decrease
+                                bg-image('decrease_2')
+                            &.discount
+                                bg-image('discount_2')
+                            &.guarantee
+                                bg-image('guarantee_2')
+                            &.invoice
+                                bg-image('invoice_2')
+                            &.special
+                                bg-image('special_2')
+                        .onsale-text
+                            display: inline-block
+                            vertical-align: middle
+                            line-height: 16px
+                            font-size: 12px
+                            font-weight: 200
+                .seller-bulletin
+                    .bulletin-text
+                        line-height: 24px
+                        font-size: 12px
+                        font-weight: 200
 
         .detail-close
             position: relative
