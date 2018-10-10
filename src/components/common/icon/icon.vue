@@ -50,7 +50,7 @@ export default {
             &.void
                 bg-image('guarantee_1')
             &.full
-                bg-image('guarante_3')
+                bg-image('guarantee_3')
         &.invoice
             &.void
                 bg-image('invoice_1')

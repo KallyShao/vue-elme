@@ -13,8 +13,7 @@
                     {{ seller.description }} / {{ seller.deliveryTime }}分钟送达
                 </div>
                 <div class="supports" v-if="seller.supports">
-                    <!-- <span class="icon" :class="classMap[seller.supports[0].type]"></span> -->
-                    <v-icon :size="24" :type="seller.supports[0].type" :voidFlag="1"></v-icon>
+                    <v-icon class="icon" :size="24" :type="seller.supports[0].type" :voidFlag="0"></v-icon>
                     <span class="text">{{ seller.supports[0].description }}</span>
                 </div>
             </div>
@@ -47,7 +46,7 @@
                             </div>
                             <ul v-if="seller.supports" class="onsale-list">
                                 <li v-for="(item, index) in seller.supports" :key="index" class="onsale-item">
-                                    <span class="icon" :class="classMap[index]"></span>
+                                    <v-icon class="icon" :size="32" :type="seller.supports[index].type" :voidFlag="0"></v-icon>
                                     <span class="onsale-text">{{ item.description }}</span>
                                 </li>
                             </ul>
@@ -95,9 +94,6 @@ export default {
         hideDetail() {
             this.detailShow = false;
         }
-    },
-    created() {
-        this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
     }
 };
 </script>
@@ -139,24 +135,11 @@ export default {
                 font-size: 12px
                 line-height: 12px
             .supports
-                // .icon
-                //     display: inline-block
-                //     vertical-align: top
-                //     width: 12px
-                //     height: 12px
-                //     margin-right: 4px
-                //     background-size:  100% 100%
-                //     background-repeat: no-repeat
-                //     &.decrease
-                //         bg-image('decrease_1')
-                //     &.discount
-                //         bg-image('discount_1')
-                //     &.guarantee
-                //         bg-image('guarantee_1')
-                //     &.invoice
-                //         bg-image('invoice_1')
-                //     &.special
-                //         bg-image('special_1')
+                font-size: 0
+                line-height: 12px
+                .icon
+                    vertical-align: top
+                    margin-right: 4px
                 .text
                     line-height: 12px
                     font-size: 10px
@@ -189,7 +172,7 @@ export default {
         .icon
             display: inline-block
             width: 22px
-            height: 12px
+            height: 14px
             margin-right: 4px
             bg-image('bulletin')
             vertical-align: middle
@@ -202,7 +185,7 @@ export default {
         .icon-keyboard_arrow_right
             position: absolute
             right: 12px
-            top: 8px
+            top: 9px
             font-size: 10px
     .background
         position: absolute
@@ -267,23 +250,8 @@ export default {
                         &:last-child
                             margin-bottom: 0
                         .icon
-                            display: inline-block
                             vertical-align: middle
-                            width: 16px
-                            height: 16px
                             margin-right: 6px
-                            background-size:  100% 100%
-                            background-repeat: no-repeat
-                            &.decrease
-                                bg-image('decrease_2')
-                            &.discount
-                                bg-image('discount_2')
-                            &.guarantee
-                                bg-image('guarantee_2')
-                            &.invoice
-                                bg-image('invoice_2')
-                            &.special
-                                bg-image('special_2')
                         .onsale-text
                             display: inline-block
                             vertical-align: middle
