@@ -13,7 +13,8 @@
                     {{ seller.description }} / {{ seller.deliveryTime }}分钟送达
                 </div>
                 <div class="supports" v-if="seller.supports">
-                    <span class="icon" :class="classMap[seller.supports[0].type]"></span>
+                    <!-- <span class="icon" :class="classMap[seller.supports[0].type]"></span> -->
+                    <v-icon :size="24" :type="seller.supports[0].type" :voidFlag="1"></v-icon>
                     <span class="text">{{ seller.supports[0].description }}</span>
                 </div>
             </div>
@@ -71,6 +72,7 @@
 
 <script>
 import star from 'components/star/star';
+import icon from 'components/common/icon/icon';
 export default {
     props: {
         seller: {
@@ -78,7 +80,8 @@ export default {
         }
     },
     components: {
-        'v-star': star
+        'v-star': star,
+        'v-icon': icon
     },
     data() {
         return {
@@ -136,24 +139,24 @@ export default {
                 font-size: 12px
                 line-height: 12px
             .supports
-                .icon
-                    display: inline-block
-                    vertical-align: top
-                    width: 12px
-                    height: 12px
-                    margin-right: 4px
-                    background-size:  100% 100%
-                    background-repeat: no-repeat
-                    &.decrease
-                        bg-image('decrease_1')
-                    &.discount
-                        bg-image('discount_1')
-                    &.guarantee
-                        bg-image('guarantee_1')
-                    &.invoice
-                        bg-image('invoice_1')
-                    &.special
-                        bg-image('special_1')
+                // .icon
+                //     display: inline-block
+                //     vertical-align: top
+                //     width: 12px
+                //     height: 12px
+                //     margin-right: 4px
+                //     background-size:  100% 100%
+                //     background-repeat: no-repeat
+                //     &.decrease
+                //         bg-image('decrease_1')
+                //     &.discount
+                //         bg-image('discount_1')
+                //     &.guarantee
+                //         bg-image('guarantee_1')
+                //     &.invoice
+                //         bg-image('invoice_1')
+                //     &.special
+                //         bg-image('special_1')
                 .text
                     line-height: 12px
                     font-size: 10px

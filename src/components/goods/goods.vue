@@ -1,15 +1,33 @@
 <template>
     <div class="wrapper">
         <div class="left-wrapper">
-            
         </div>
         <div class="foods-wrapper"></div>
     </div>
 </template>
 
 <script>
+const ERR_OK = 0;
 export default {
-    name: 'goods'
+    props: {
+        seller: {
+            type: Object
+        }
+    },
+    data() {
+        return {
+            goods: []
+        };
+    },
+    created() {
+        this.$http.get('/api/goods').then((res) => {
+            console.log(res);
+            res = res.body;
+            if (res.errno === ERR_OK){
+                this.goods = res.data;
+            }
+        });
+    }
 };
 </script>
 
