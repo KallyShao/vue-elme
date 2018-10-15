@@ -2,7 +2,7 @@
     <div class="outer-wrapper">
         <div class="left-wrapper" ref="leftWrapper">
             <ul class="menu-list">
-                <li class="menu-item" v-for="(item, index) in goods" :key="index" :class="{'active': index == getCurrentMenuIndex}">
+                <li class="menu-item" v-for="(item, index) in goods" :key="index" :class="{'active': index == getCurrentMenuIndex}" @click="selectCategoryItem(index)">
                     <span class="text border-1px">
                         <span v-show="item.type >= 0" class="icon">
                             <v-icon :size="24" :type="item.type" :voidFlag="1"></v-icon>
@@ -14,7 +14,7 @@
         </div>
         <div class="foods-wrapper" ref="foodsWrapper">
             <div>
-                <div v-for="(goodsItem, index) in goods" class="category-item category-item" :key="index">
+                <div v-for="(goodsItem, index) in goods" class="category-item category-item-hook" :key="index">
                     <h1 class="category-item-title">{{ goodsItem.name }}</h1>
                     <ul class="foods-list">
                         <li class="foods-item border-1px" v-for="(foodsItem, index) in goodsItem.foods" :key="index">
@@ -64,19 +64,22 @@ export default {
     },
     computed: {
         getCurrentMenuIndex() {
-            // let index = 0;
             for (let i = 0; i < this.heightList.length; i++){
-                if (this.scrollY < this.heightList[i + 1] && this.scrollY >= this.heightList[i]){
-                    console.log(i);
+                let height1 = this.heightList[i];
+                let height2 = this.heightList[i + 1];
+                if (!height2 || (this.scrollY < height2 && this.scrollY >= height1)){
                     return i;
                 }
             }
+            return 0;
         }
     },
     methods: {
         _initScroll() {
             let leftWrapper = this.$refs.leftWrapper;
-            this.leftScroll = new BScroll(leftWrapper);
+            this.leftScroll = new BScroll(leftWrapper, {
+                click: true
+            });
 
             let foodsWrapper = this.$refs.foodsWrapper;
             this.foodsScroll = new BScroll(foodsWrapper, {
@@ -87,10 +90,17 @@ export default {
             let height = 0;
             let foodsWrapper = this.$refs.foodsWrapper;
             let categoryItemList = foodsWrapper.getElementsByClassName('category-item-hook');
+            this.heightList.push(height);
             for (let i = 0; i < categoryItemList.length; i++){
                 height += categoryItemList[i].offsetHeight;
                 this.heightList.push(height);
             }
+        },
+        selectCategoryItem(index) {
+            let foodsWrapper = this.$refs.foodsWrapper;
+            let categoryItemList = foodsWrapper.getElementsByClassName('category-item-hook');
+            let el = categoryItemList[index];
+            this.foodsScroll.scrollToElement(el, 300);
         }
     },
     created() {
@@ -127,16 +137,22 @@ export default {
         width: 80px //兼容安卓浏览器
         background: #f3f5f7
         .menu-list
-            padding: 0 12px
             overflow: hidden
             .menu-item
                 display: table
                 width: 56px
                 height: 54px
+                padding: 0 12px
                 line-height: 14px
                 color: #666
                 &.active
+                    position: relative
                     background: #fff
+                    z-index: 10
+                    margin-top: -1px
+                    font-weight: 700
+                    .text
+                        border-none()
                 .text
                     display: table-cell
                     vertical-align: middle
