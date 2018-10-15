@@ -1,48 +1,52 @@
 <template>
-    <div class="outer-wrapper">
-        <div class="left-wrapper" ref="leftWrapper">
-            <ul class="menu-list">
-                <li class="menu-item" v-for="(item, index) in goods" :key="index" :class="{'active': index == getCurrentMenuIndex}" @click="selectCategoryItem(index)">
-                    <span class="text border-1px">
-                        <span v-show="item.type >= 0" class="icon">
-                            <v-icon :size="24" :type="item.type" :voidFlag="1"></v-icon>
+    <div>
+        <div class="outer-wrapper">
+            <div class="left-wrapper" ref="leftWrapper">
+                <ul class="menu-list">
+                    <li class="menu-item" v-for="(item, index) in goods" :key="index" :class="{'active': index == getCurrentMenuIndex}" @click="selectCategoryItem(index)">
+                        <span class="text border-1px">
+                            <span v-show="item.type >= 0" class="icon">
+                                <v-icon :size="24" :type="item.type" :voidFlag="1"></v-icon>
+                            </span>
+                            {{ item.name }}
                         </span>
-                        {{ item.name }}
-                    </span>
-                </li>
-            </ul>
-        </div>
-        <div class="foods-wrapper" ref="foodsWrapper">
-            <div>
-                <div v-for="(goodsItem, index) in goods" class="category-item category-item-hook" :key="index">
-                    <h1 class="category-item-title">{{ goodsItem.name }}</h1>
-                    <ul class="foods-list">
-                        <li class="foods-item border-1px" v-for="(foodsItem, index) in goodsItem.foods" :key="index">
-                            <div class="img-wrap">
-                                <img :src="foodsItem.icon">
-                            </div>
-                            <div class="text-wrap">
-                                <h2 class="text-title">{{ foodsItem.name }}</h2>
-                                <p class="description">{{ foodsItem.description }}</p>
-                                <p class="rating-wrap">
-                                    <span class="sell-count">月售{{ foodsItem.sellCount }}份</span><span class="rating">好评率{{ foodsItem.rating }}%</span>
-                                </p>
-                                <div class="price">
-                                    <span class="current-price"><span class="money-flag">￥</span>{{ foodsItem.price }}</span>
-                                    <s class="old-price" v-if="foodsItem.oldPrice">￥{{ foodsItem.oldPrice }}</s>
+                    </li>
+                </ul>
+            </div>
+            <div class="foods-wrapper" ref="foodsWrapper">
+                <div>
+                    <div v-for="(goodsItem, index) in goods" class="category-item category-item-hook" :key="index">
+                        <h1 class="category-item-title">{{ goodsItem.name }}</h1>
+                        <ul class="foods-list">
+                            <li class="foods-item border-1px" v-for="(foodsItem, index) in goodsItem.foods" :key="index">
+                                <div class="img-wrap">
+                                    <img :src="foodsItem.icon">
                                 </div>
-                                <i class="icon-add_circle"></i>
-                            </div>
-                        </li>
-                    </ul>
+                                <div class="text-wrap">
+                                    <h2 class="text-title">{{ foodsItem.name }}</h2>
+                                    <p class="description">{{ foodsItem.description }}</p>
+                                    <p class="rating-wrap">
+                                        <span class="sell-count">月售{{ foodsItem.sellCount }}份</span><span class="rating">好评率{{ foodsItem.rating }}%</span>
+                                    </p>
+                                    <div class="price">
+                                        <span class="current-price"><span class="money-flag">￥</span>{{ foodsItem.price }}</span>
+                                        <s class="old-price" v-if="foodsItem.oldPrice">￥{{ foodsItem.oldPrice }}</s>
+                                    </div>
+                                    <i class="icon-add_circle"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+        <v-shoppingcart></v-shoppingcart>
     </div>
 </template>
 
 <script>
 import icon from 'components/common/icon/icon';
+import shoppingcart from 'components/shoppingcart/shoppingcart';
 import BScroll from 'better-scroll';
 
 const ERR_OK = 0;
@@ -60,7 +64,8 @@ export default {
         };
     },
     components: {
-        'v-icon': icon
+        'v-icon': icon,
+        'v-shoppingcart': shoppingcart
     },
     computed: {
         getCurrentMenuIndex() {
