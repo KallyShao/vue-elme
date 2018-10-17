@@ -12,7 +12,7 @@ body, html
         visibility: hidden
 
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5)
-    .border-1px
+    .border-1px, .border-1px-left
         &:after
             // 这里没有用到postcss，需要加前缀。vue-cli里自动安装了postcss
             // 这是结合了border-1px()函数实现1px border,通过&:after 选中的就是mixin中定义的&:after元素
@@ -20,7 +20,7 @@ body, html
             -ms-transform: scaleY(0.7)
             transform: scaleY(0.7)
 @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2)
-    .border-1px
+    .border-1px, .border-1px-left
         &:after
             -webkit-transform: scaleY(0.5)
             -ms-transform: scaleY(0.5)

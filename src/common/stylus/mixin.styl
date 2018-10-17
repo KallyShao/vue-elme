@@ -12,6 +12,16 @@ border-1px($color)
 border-none()
     &:after
         display: none
+border-1px-left($color)
+    position: relative
+    &:after
+        display: block
+        position: absolute
+        left: 0
+        bottom: 0
+        height: 100%
+        border-left: 1px solid $color
+        content: ' '
 bg-image($url)
     background-image: url($url + '@2x.png')
     background-size: 100% 100%

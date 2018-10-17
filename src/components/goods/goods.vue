@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <v-shoppingcart></v-shoppingcart>
+        <v-shoppingcart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"></v-shoppingcart>
     </div>
 </template>
 
@@ -119,7 +119,6 @@ export default {
                     this._calculateHeight();
                     this.foodsScroll.on('scroll', (pos) => {
                         this.scrollY = Math.abs(Math.round(pos.y));
-                        // console.log(this.scrollY);
                     });
                 });
             }
