@@ -3,7 +3,7 @@
         <div class="outer-wrapper">
             <div class="left-wrapper" ref="leftWrapper">
                 <ul class="menu-list">
-                    <li class="menu-item" v-for="(item, index) in goods" :key="index" :class="{'active': index == getCurrentMenuIndex}" @click="selectCategoryItem(index)">
+                    <li class="menu-item" v-for="(item, index) in goods" :key="index" :class="{'active': index == getCurrentMenuIndex}" @click="handleSelectCategoryItem(index)">
                         <span class="text border-1px">
                             <span v-show="item.type >= 0" class="icon">
                                 <v-icon :size="24" :type="item.type" :voidFlag="1"></v-icon>
@@ -32,21 +32,24 @@
                                         <span class="current-price"><span class="money-flag">￥</span>{{ foodsItem.price }}</span>
                                         <s class="old-price" v-if="foodsItem.oldPrice">￥{{ foodsItem.oldPrice }}</s>
                                     </div>
-                                    <i class="icon-add_circle"></i>
                                 </div>
+                                <v-cartctrl :food="foodsItem"></v-cartctrl>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <v-shoppingcart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"></v-shoppingcart>
+        <v-shoppingcart :minPrice="seller.minPrice"
+                        :deliveryPrice="seller.deliveryPrice"
+                        ></v-shoppingcart>
     </div>
 </template>
 
 <script>
 import icon from 'components/common/icon/icon';
 import shoppingcart from 'components/shoppingcart/shoppingcart';
+import cartctrl from 'components/cartctrl/cartctrl';
 import BScroll from 'better-scroll';
 
 const ERR_OK = 0;
@@ -60,12 +63,14 @@ export default {
         return {
             goods: [],
             heightList: [],
-            scrollY: 0
+            scrollY: 0,
+            selectedFoods: []
         };
     },
     components: {
         'v-icon': icon,
-        'v-shoppingcart': shoppingcart
+        'v-shoppingcart': shoppingcart,
+        'v-cartctrl': cartctrl
     },
     computed: {
         getCurrentMenuIndex() {
@@ -88,7 +93,8 @@ export default {
 
             let foodsWrapper = this.$refs.foodsWrapper;
             this.foodsScroll = new BScroll(foodsWrapper, {
-                probeType: 3
+                probeType: 3,
+                click: true
             });
         },
         _calculateHeight() {
@@ -101,7 +107,7 @@ export default {
                 this.heightList.push(height);
             }
         },
-        selectCategoryItem(index) {
+        handleSelectCategoryItem(index) {
             let foodsWrapper = this.$refs.foodsWrapper;
             let categoryItemList = foodsWrapper.getElementsByClassName('category-item-hook');
             let el = categoryItemList[index];
@@ -188,13 +194,6 @@ export default {
                 &:last-child
                     margin-bottom: 0
                     border-none()
-                .icon-add_circle
-                    position: absolute
-                    right: 0
-                    bottom: 18px
-                    line-height: 24px
-                    font-size: 24px
-                    color: rgb(0, 160, 220)
                 .img-wrap
                     display: inline-block
                     flex: 0 0 57px
