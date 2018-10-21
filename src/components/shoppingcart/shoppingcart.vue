@@ -31,10 +31,6 @@ export default {
                 return [
                     {
                         price: 10,
-                        count: 0
-                    },
-                    {
-                        price: 3.44,
                         count: 1
                     }
                 ];

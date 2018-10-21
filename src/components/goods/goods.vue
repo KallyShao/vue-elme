@@ -42,7 +42,7 @@
         </div>
         <v-shoppingcart :minPrice="seller.minPrice"
                         :deliveryPrice="seller.deliveryPrice"
-                        ></v-shoppingcart>
+                        :selectedFoods="selectedFoods"></v-shoppingcart>
     </div>
 </template>
 
@@ -63,8 +63,7 @@ export default {
         return {
             goods: [],
             heightList: [],
-            scrollY: 0,
-            selectedFoods: []
+            scrollY: 0
         };
     },
     components: {
@@ -82,6 +81,18 @@ export default {
                 }
             }
             return 0;
+        },
+        selectedFoods() {
+            let foods = [];
+            this.goods.forEach((good) => {
+                good.foods.forEach((food) => {
+                    // console.log(food.count);
+                    if (food.count > 0){
+                        foods.push(food);
+                    }
+                });
+            });
+            return foods;
         }
     },
     methods: {
