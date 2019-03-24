@@ -31,19 +31,22 @@
                                     <span class="current-price"><span class="money-flag">￥</span>{{ foodsItem.price }}</span>
                                     <s class="old-price" v-if="foodsItem.oldPrice">￥{{ foodsItem.oldPrice }}</s>
                                 </div>
-                                <i class="icon-add_circle"></i>
+                                <v-cartctrl @handleAddCart="_addCart(foodsItem)"></v-cartctrl>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
+        <v-cart :shipping-fee="seller.deliveryPrice" :min-price="seller.minPrice" :selected-goods="selectedGoods"></v-cart>
     </div>
 </template>
 
 <script>
 import icon from 'components/common/icon/icon';
 import BScroll from 'better-scroll';
+import cart from 'components/shoppingcart/shoppingcart';
+import cartctrl from 'components/common/cartctrl/cartctrl'
 
 const ERR_OK = 0;
 export default {
@@ -56,11 +59,14 @@ export default {
         return {
             goods: [],
             heightList: [],
-            scrollY: 0
+            scrollY: 0,
+            selectedGoods: []
         };
     },
     components: {
-        'v-icon': icon
+        'v-icon': icon,
+        'v-cart': cart,
+        'v-cartctrl': cartctrl
     },
     computed: {
         getCurrentMenuIndex() {
@@ -83,7 +89,8 @@ export default {
 
             let foodsWrapper = this.$refs.foodsWrapper;
             this.foodsScroll = new BScroll(foodsWrapper, {
-                probeType: 3
+                probeType: 3,
+                click: true
             });
         },
         _calculateHeight() {
@@ -101,6 +108,9 @@ export default {
             let categoryItemList = foodsWrapper.getElementsByClassName('category-item-hook');
             let el = categoryItemList[index];
             this.foodsScroll.scrollToElement(el, 300);
+        },
+        _addCart(food) {
+            console.log(food);
         }
     },
     created() {
@@ -184,13 +194,6 @@ export default {
                 &:last-child
                     margin-bottom: 0
                     border-none()
-                .icon-add_circle
-                    position: absolute
-                    right: 0
-                    bottom: 18px
-                    line-height: 24px
-                    font-size: 24px
-                    color: rgb(0, 160, 220)
                 .img-wrap
                     display: inline-block
                     flex: 0 0 57px
@@ -202,6 +205,7 @@ export default {
                     display: inline-block
                     vertical-align: top
                     padding-left: 10px
+                    position: relative
                     .text-title
                         line-height: 14px
                         margin-top: 2px

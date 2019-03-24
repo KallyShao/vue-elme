@@ -18,7 +18,7 @@
                 </router-link>
             </div>
         </div>
-        <router-view></router-view>
+        <router-view :seller="seller"></router-view>
         <!-- router-view中的内容是通过路由动态刷新的，也就是上面选中哪个路径，router-view就替换成对应路径下的内容 -->
     </div>
 </template>
@@ -42,6 +42,7 @@ export default {
             res = res.body;
             if (res.errno === ERR_OK){
                 this.seller = res.data;
+                console.log(this.seller);
             }
         });
     }
