@@ -1,19 +1,21 @@
 <template>
     <div class="container">
         <div class="left">
-            <div class="outer active">
+            <div class="outer" :class="{'active': totalPrice.totalCount > 0 }">
                 <span class="inner">
                     <i class="icon-shopping_cart"></i>
                 </span>
-                <span class="cart-count">99</span>
+                <span v-if="totalPrice.totalCount > 0" class="cart-count">{{ totalPrice.totalCount }}</span>
             </div>
-            <div class="curr-price">￥8.98</div>
+            <div class="curr-price">￥{{ totalPrice.totalPrice }}</div>
             <div class="shipping-fee">
                 <p>另需配送费￥{{ shippingFee }}元</p>
             </div>
         </div>
         <div class="right">
-            <p>￥{{ minPrice }}起送</p>
+            <p v-if="totalPrice.totalPrice === 0">￥{{ minPrice }}起送</p>
+            <p v-else-if="totalPrice.totalPrice > 0 && totalPrice.totalPrice < minPrice">还差{{ minPrice - totalPrice.totalPrice }}起送</p>
+            <p v-else class="check">去结算</p>
         </div>
     </div>
 </template>
@@ -34,6 +36,21 @@
                 default() {
                     return [];
                 }
+            }
+        },
+        computed: {
+            totalPrice() {
+                let obj = {
+                    totalCount: 0,
+                    totalPrice: 0
+                }
+                let res =this.selectedGoods.reduce((acc, currVal) => {
+                    return {
+                        totalCount: acc.totalCount + currVal.count,
+                        totalPrice: acc.totalPrice + currVal.price * currVal.count
+                    };
+                }, obj);
+                return res;
             }
         }
     };
@@ -114,4 +131,7 @@
             text-align: center
             line-height: 48px
             font-weight: 700
+        .check
+            background: green
+            color: #fff
 </style>

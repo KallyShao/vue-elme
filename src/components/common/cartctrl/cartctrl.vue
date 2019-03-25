@@ -1,15 +1,27 @@
 <template>
     <div class="wrapper">
-        <i class="icon-remove_circle_outline"></i>
-        <span class="number">190</span>
+        <i v-if="count > 0" class="icon-remove_circle_outline" @click="_decreaseCart"></i>
+        <span v-if="count > 0" class="number">{{ count }}</span>
         <i class="icon-add_circle" @click="_addCart"></i>
     </div>
 </template>
 <script>
     export default {
+       data() {
+           return {
+               count: 0
+           };
+       },
         methods: {
             _addCart() {
+                this.count++;
                 this.$emit('handleAddCart');
+            },
+            _decreaseCart() {
+                if (this.count > 0) {
+                    this.count--;
+                }
+                this.$emit('handleDecreaseCart');
             }
         }
     };

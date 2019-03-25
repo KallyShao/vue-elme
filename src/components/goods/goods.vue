@@ -31,7 +31,7 @@
                                     <span class="current-price"><span class="money-flag">￥</span>{{ foodsItem.price }}</span>
                                     <s class="old-price" v-if="foodsItem.oldPrice">￥{{ foodsItem.oldPrice }}</s>
                                 </div>
-                                <v-cartctrl @handleAddCart="_addCart(foodsItem)"></v-cartctrl>
+                                <v-cartctrl @handleAddCart="_addCart(foodsItem)" @handleDecreaseCart="_decreaseCart(foodsItem)"></v-cartctrl>
                             </div>
                         </li>
                     </ul>
@@ -46,7 +46,8 @@
 import icon from 'components/common/icon/icon';
 import BScroll from 'better-scroll';
 import cart from 'components/shoppingcart/shoppingcart';
-import cartctrl from 'components/common/cartctrl/cartctrl'
+import cartctrl from 'components/common/cartctrl/cartctrl';
+import Vue from 'vue';
 
 const ERR_OK = 0;
 export default {
@@ -110,7 +111,18 @@ export default {
             this.foodsScroll.scrollToElement(el, 300);
         },
         _addCart(food) {
-            console.log(food);
+            if (!food.count) {
+                Vue.set(food, 'count', 1);
+                console.log(food);
+            } else {
+                food.count++;
+            }
+            this.selectedGoods.push(food);
+        },
+        _decreaseCart(food) {
+            if (food.count && food.count > 0) {
+                food.count--;
+            }
         }
     },
     created() {
